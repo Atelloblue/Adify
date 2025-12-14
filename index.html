@@ -27,6 +27,11 @@
                             silver: '#C0C0C0',
                             bronze: '#CD7F32',
                             input: '#40444b',
+                            // Specific Discord UI shades for better accuracy
+                            'dark-hover': '#3b3d43', // For channels hover/active
+                            'dm-icon-bg': '#313338', // For DM icon bg
+                            'mute-text': '#80848E', // Muted text/category headers
+                            'input-border': '#2d2e33', // Border for input field
                         },
                         // Base Dark/Black Colors
                         'dark-bg': '#07070b', 
@@ -117,11 +122,11 @@
             margin-bottom: 2px;
         }
         .discord-channel:hover {
-            background-color: #4f545c33; 
+            background-color: #3b3d43; /* Discord hover/active channel background */
             color: #dbdee1;
         }
         .active-channel {
-            background-color: #4f545c52;
+            background-color: #3b3d43; /* Discord active channel background */
             color: #fff;
         }
 
@@ -241,22 +246,27 @@
         <div class="max-w-6xl mx-auto">
             <div class="rounded-xl overflow-hidden shadow-2xl shadow-black/80 border border-[#202225] bg-[#36393f] flex flex-col md:flex-row h-[450px] md:h-[650px] animate-fade-in-up">
                 
-                <div class="discord-server-list w-[72px] bg-discord-nav hidden md:flex flex-col items-center py-3 gap-3">
-                    <div class="w-12 h-12 bg-discord-sidebar rounded-[24px] hover:rounded-[16px] hover:bg-discord-brand transition-all duration-200 flex items-center justify-center cursor-pointer text-white shadow-lg shadow-white/5" title="Direct Messages">
-                        <i class="fa-brands fa-discord text-xl"></i>
+                <div class="discord-server-list w-[72px] bg-discord-nav flex flex-col items-center py-3 gap-2">
+                    <!-- Discord Home (Direct Messages) Icon -->
+                    <div class="w-12 h-12 bg-discord-dm-icon-bg rounded-[24px] hover:rounded-[16px] hover:bg-discord-brand transition-all duration-200 flex items-center justify-center cursor-pointer text-white text-2xl" title="Direct Messages">
+                        <i class="fa-brands fa-discord"></i>
                     </div>
-                    <div class="w-8 h-[2px] bg-discord-sidebar rounded-full"></div>
-                    <div class="relative w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold cursor-pointer overflow-hidden group">
+                    <div class="w-8 h-[2px] bg-discord-sidebar rounded-full my-2"></div> <!-- Separator -->
+
+                    <!-- Adify Server Icon -->
+                    <div class="relative w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold cursor-pointer overflow-hidden group hover:rounded-[16px] transition-all duration-200">
                         <img src="https://i.ibb.co/8nFvmJVJ/1000020816-modified.png" alt="Adify Server Icon" class="w-full h-full object-cover">
-                        <div class="absolute -left-[5px] w-1 h-3 bg-white rounded-r-lg"></div>
+                        <div class="absolute -left-[5px] w-1 h-3 bg-white rounded-r-lg"></div> <!-- Active server indicator -->
                     </div>
-                    <div class="w-8 h-[2px] bg-discord-sidebar rounded-full"></div>
+                    
+                    <div class="w-8 h-[2px] bg-discord-sidebar rounded-full my-2"></div> <!-- Separator -->
+
                     <!-- Add Server Icon -->
-                    <div class="w-12 h-12 rounded-full hover:rounded-[16px] transition-all duration-200 flex items-center justify-center cursor-pointer bg-[#313338] hover:bg-discord-green text-white text-2xl" title="Add a Server">
+                    <div class="w-12 h-12 rounded-full hover:rounded-[16px] transition-all duration-200 flex items-center justify-center cursor-pointer bg-discord-dm-icon-bg hover:bg-discord-green text-white text-2xl" title="Add a Server">
                         <i class="fa-solid fa-plus"></i>
                     </div>
                     <!-- Discover Icon -->
-                    <div class="w-12 h-12 rounded-full hover:rounded-[16px] transition-all duration-200 flex items-center justify-center cursor-pointer bg-[#313338] hover:bg-discord-brand text-white text-2xl" title="Explore Public Servers">
+                    <div class="w-12 h-12 rounded-full hover:rounded-[16px] transition-all duration-200 flex items-center justify-center cursor-pointer bg-discord-dm-icon-bg hover:bg-discord-brand text-white text-2xl" title="Explore Public Servers">
                         <i class="fa-solid fa-compass"></i>
                     </div>
                 </div>
@@ -269,11 +279,11 @@
 
                     <div class="flex-1 overflow-y-auto discord-scroll p-2 space-y-0 pt-2">
                         
-                        <div class="pt-3 pb-1 pl-1 pr-1 flex items-center justify-between hover:text-gray-300 cursor-pointer text-discord-muted text-[11px] font-bold uppercase tracking-wider">
+                        <div class="pt-3 pb-1 pl-1 pr-1 flex items-center justify-between hover:text-gray-300 cursor-pointer text-discord-mute-text text-xs font-semibold uppercase tracking-wider">
                             <div class="flex items-center gap-1">
                                 <i class="fa-solid fa-chevron-down text-[9px] mr-1"></i> INFO
                             </div>
-                            <i class="fa-solid fa-plus text-xs opacity-0 hover:opacity-100 transition"></i>
+                            <i class="fa-solid fa-plus text-xs opacity-0 group-hover:opacity-100 transition"></i>
                         </div>
                         
                         <div class="discord-channel px-2 py-1.5 rounded-[4px] flex items-center gap-2 cursor-pointer group">
@@ -314,8 +324,8 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-2 text-gray-400 text-lg">
-                            <i class="fa-solid fa-microphone hover:text-white cursor-pointer transition p-1 rounded"></i>
-                            <i class="fa-solid fa-gear hover:text-white cursor-pointer transition p-1 rounded"></i>
+                            <i class="fa-solid fa-microphone hover:text-white cursor-pointer transition p-1 rounded hover:bg-gray-700/50"></i>
+                            <i class="fa-solid fa-gear hover:text-white cursor-pointer transition p-1 rounded hover:bg-gray-700/50"></i>
                         </div>
                     </div>
                 </div>
@@ -390,7 +400,7 @@
                     </div>
                     
                     <div class="p-3 bg-discord-bg border-t border-[#292b2f]">
-                        <div class="h-10 bg-discord-input rounded-lg flex items-center px-3 gap-3">
+                        <div class="h-10 bg-discord-input rounded-lg flex items-center px-3 gap-3 border border-discord-input-border">
                             <i class="fa-solid fa-plus-circle text-gray-500 text-xl cursor-pointer hover:text-gray-300 transition"></i>
                             <input type="text" placeholder="Message #how-to-advertise" class="flex-1 bg-transparent text-white placeholder-gray-400 text-sm focus:outline-none" disabled>
                             <i class="fa-solid fa-gift text-gray-500 cursor-pointer hover:text-gray-300 transition hidden sm:inline"></i>
