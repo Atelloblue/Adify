@@ -108,25 +108,25 @@
         /* Custom Scrollbar for the Fake Discord Window (Retains color) */
         .discord-scroll::-webkit-scrollbar {
             width: 8px;
-            background-color: #2f3136;
+            background-color: var(--discord-sidebar, #2f3136); /* Use CSS variable or fallback */
         }
         .discord-scroll::-webkit-scrollbar-thumb {
-            background-color: #202225;
+            background-color: var(--discord-nav, #202225); /* Use CSS variable or fallback */
             border-radius: 4px;
         }
         
         /* Realistic Channel Styling (Retains color) */
         .discord-channel {
-            color: #949ba4;
+            color: var(--discord-muted, #949ba4);
             transition: all 0.15s ease-out;
             margin-bottom: 2px;
         }
         .discord-channel:hover {
-            background-color: #3b3d43; /* Discord hover/active channel background */
-            color: #dbdee1;
+            background-color: var(--discord-dark-hover, #3b3d43); 
+            color: var(--discord-text, #dcddde);
         }
         .active-channel {
-            background-color: #3b3d43; /* Discord active channel background */
+            background-color: var(--discord-dark-hover, #3b3d43); 
             color: #fff;
         }
 
@@ -137,7 +137,7 @@
             transition: background-color 0.1s;
         }
         .discord-message-group:hover {
-            background-color: #32353b; 
+            background-color: var(--discord-message, #32353b); 
         }
         .discord-message-group:hover .timestamp-hover {
             opacity: 1;
@@ -244,22 +244,27 @@
 
     <section id="preview" class="py-12 px-4 sm:px-6">
         <div class="max-w-6xl mx-auto">
-            <div class="rounded-xl overflow-hidden shadow-2xl shadow-black/80 border border-[#202225] bg-[#36393f] flex flex-col md:flex-row h-[450px] md:h-[650px] animate-fade-in-up">
+            <!-- Discord Preview Window Container -->
+            <div class="rounded-xl overflow-hidden shadow-2xl shadow-black/80 border border-discord-nav bg-discord-bg flex flex-col md:flex-row h-[450px] md:h-[650px] animate-fade-in-up">
                 
-                <div class="discord-server-list w-[72px] bg-discord-nav flex flex-col items-center py-3 gap-2">
+                <!-- Server List Sidebar (Leftmost) -->
+                <div class="discord-server-list w-[72px] bg-discord-nav flex flex-col items-center py-3 gap-3">
                     <!-- Discord Home (Direct Messages) Icon -->
                     <div class="w-12 h-12 bg-discord-dm-icon-bg rounded-[24px] hover:rounded-[16px] hover:bg-discord-brand transition-all duration-200 flex items-center justify-center cursor-pointer text-white text-2xl" title="Direct Messages">
                         <i class="fa-brands fa-discord"></i>
                     </div>
-                    <div class="w-8 h-[2px] bg-discord-sidebar rounded-full my-2"></div> <!-- Separator -->
+                    <!-- Separator -->
+                    <div class="w-8 h-[2px] bg-white/10 rounded-full"></div> 
 
-                    <!-- Adify Server Icon -->
+                    <!-- Adify Server Icon (Active) -->
                     <div class="relative w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold cursor-pointer overflow-hidden group hover:rounded-[16px] transition-all duration-200">
                         <img src="https://i.ibb.co/8nFvmJVJ/1000020816-modified.png" alt="Adify Server Icon" class="w-full h-full object-cover">
-                        <div class="absolute -left-[5px] w-1 h-3 bg-white rounded-r-lg"></div> <!-- Active server indicator -->
+                        <!-- Active server indicator (white bar on left) -->
+                        <div class="absolute -left-[5px] w-1 h-3 bg-white rounded-r-lg"></div> 
                     </div>
                     
-                    <div class="w-8 h-[2px] bg-discord-sidebar rounded-full my-2"></div> <!-- Separator -->
+                    <!-- Separator -->
+                    <div class="w-8 h-[2px] bg-white/10 rounded-full"></div> 
 
                     <!-- Add Server Icon -->
                     <div class="w-12 h-12 rounded-full hover:rounded-[16px] transition-all duration-200 flex items-center justify-center cursor-pointer bg-discord-dm-icon-bg hover:bg-discord-green text-white text-2xl" title="Add a Server">
@@ -271,52 +276,62 @@
                     </div>
                 </div>
 
-                <div class="discord-sidebar w-full md:w-64 bg-discord-sidebar flex-col border-r border-[#202225] hidden md:flex">
-                    <div class="h-12 border-b border-[#202225] p-3 flex items-center justify-between hover:bg-[#34373c] cursor-pointer transition">
+                <!-- Channels Sidebar -->
+                <div class="discord-sidebar w-full md:w-64 bg-discord-sidebar flex-col border-r border-discord-nav hidden md:flex">
+                    <!-- Server Name Header -->
+                    <div class="h-12 border-b border-discord-nav p-3 flex items-center justify-between hover:bg-discord-dark-hover cursor-pointer transition">
                         <h3 class="font-semibold text-white text-[15px] truncate">Adify | Advertise & Explore</h3>
                         <i class="fa-solid fa-chevron-down text-sm text-gray-400"></i>
                     </div>
 
                     <div class="flex-1 overflow-y-auto discord-scroll p-2 space-y-0 pt-2">
                         
-                        <div class="pt-3 pb-1 pl-1 pr-1 flex items-center justify-between hover:text-gray-300 cursor-pointer text-discord-mute-text text-xs font-semibold uppercase tracking-wider">
+                        <!-- Channel Category: INFO -->
+                        <div class="pt-3 pb-1 pl-1 pr-1 flex items-center justify-between group cursor-pointer text-discord-mute-text text-xs font-semibold uppercase tracking-wider hover:text-gray-200 transition">
                             <div class="flex items-center gap-1">
                                 <i class="fa-solid fa-chevron-down text-[9px] mr-1"></i> INFO
                             </div>
                             <i class="fa-solid fa-plus text-xs opacity-0 group-hover:opacity-100 transition"></i>
                         </div>
                         
+                        <!-- Channel: announcements -->
                         <div class="discord-channel px-2 py-1.5 rounded-[4px] flex items-center gap-2 cursor-pointer group">
-                            <i class="fa-solid fa-bullhorn text-sm text-white"></i>
-                            <span class="font-medium text-sm">📣・announcements</span>
+                            <i class="fa-solid fa-bullhorn text-sm text-discord-muted"></i>
+                            <span class="font-medium text-sm text-discord-muted">📣・announcements</span>
                         </div>
                         
+                        <!-- Channel: rules -->
                         <div class="discord-channel px-2 py-1.5 rounded-[4px] flex items-center gap-2 cursor-pointer group">
-                            <i class="fa-solid fa-hashtag text-sm text-white"></i>
-                            <span class="font-medium text-sm">📜・rules</span>
+                            <i class="fa-solid fa-hashtag text-sm text-discord-muted"></i>
+                            <span class="font-medium text-sm text-discord-muted">📜・rules</span>
                         </div>
 
+                        <!-- Active Channel: how-to-advertise (LOCKED) -->
                         <div class="discord-channel active-channel px-2 py-1.5 rounded-[4px] flex items-center gap-2 cursor-pointer group">
                             <i class="fa-solid fa-hashtag text-sm text-white"></i>
-                            <span class="font-medium text-sm">how-to-advertise</span>
+                            <span class="font-medium text-sm text-white">how-to-advertise</span>
+                            <i class="fa-solid fa-lock text-xs text-discord-muted ml-auto"></i> <!-- Added Lock Icon -->
                         </div>
                         
+                        <!-- Channel: welcome -->
                         <div class="discord-channel px-2 py-1.5 rounded-[4px] flex items-center gap-2 cursor-pointer group">
-                            <i class="fa-solid fa-hashtag text-sm text-white"></i>
-                            <span class="font-medium text-sm">👋・welcome</span>
+                            <i class="fa-solid fa-hashtag text-sm text-discord-muted"></i>
+                            <span class="font-medium text-sm text-discord-muted">👋・welcome</span>
                         </div>
                         
+                        <!-- Channel: giveaways -->
                         <div class="discord-channel px-2 py-1.5 rounded-[4px] flex items-center gap-2 cursor-pointer group">
-                            <i class="fa-solid fa-hashtag text-sm text-white"></i>
-                            <span class="font-medium text-sm">🎉・giveaways</span>
+                            <i class="fa-solid fa-hashtag text-sm text-discord-muted"></i>
+                            <span class="font-medium text-sm text-discord-muted">🎉・giveaways</span>
                         </div>
 
                     </div>
                     
-                    <div class="h-[52px] bg-[#232428] p-2 flex items-center gap-2 justify-between">
+                    <!-- User Info Panel -->
+                    <div class="h-[52px] bg-discord-nav p-2 flex items-center gap-2 justify-between border-t border-discord-nav">
                         <div class="flex items-center gap-2">
                             <div class="w-8 h-8 rounded-full bg-gray-500 relative">
-                                <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#232428]"></div>
+                                <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-discord-nav"></div>
                             </div>
                             <div class="text-xs">
                                 <div class="font-bold text-white leading-none">You</div>
@@ -330,14 +345,18 @@
                     </div>
                 </div>
 
+                <!-- Main Chat Window -->
                 <div class="discord-main-chat flex-1 bg-discord-bg flex flex-col relative">
-                    <div class="h-12 border-b border-[#26272d] flex items-center px-4 gap-3 shadow-sm">
+                    <!-- Chat Header -->
+                    <div class="h-12 border-b border-discord-nav flex items-center px-4 gap-3 shadow-sm">
                         <i class="fa-solid fa-bars md:hidden text-gray-400 text-xl cursor-pointer" title="Simulated Discord Channel Toggle"></i>
                         <i class="fa-solid fa-hashtag text-gray-400 text-xl"></i>
                         <span class="font-bold text-white text-base truncate">how-to-advertise</span>
-                        <span class="text-gray-500 text-sm hidden lg:inline border-l border-gray-700 ml-2 pl-3">Your step-by-step guide to ranking up!</span>
+                        <i class="fa-solid fa-lock text-gray-400 text-base ml-1"></i> <!-- Added Lock Icon to Header -->
+                        <span class="text-discord-muted text-sm hidden lg:inline border-l border-discord-nav ml-2 pl-3">Your step-by-step guide to ranking up!</span>
                     </div>
 
+                    <!-- Chat Messages Area -->
                     <div class="flex-1 p-4 md:px-5 overflow-y-auto discord-scroll flex flex-col justify-end">
                         <div class="w-full pt-1">
                             <div class="discord-message-group relative">
@@ -399,10 +418,11 @@
                         </div>
                     </div>
                     
-                    <div class="p-3 bg-discord-bg border-t border-[#292b2f]">
+                    <!-- Chat Input Area (Disabled) -->
+                    <div class="p-3 bg-discord-bg border-t border-discord-nav">
                         <div class="h-10 bg-discord-input rounded-lg flex items-center px-3 gap-3 border border-discord-input-border">
                             <i class="fa-solid fa-plus-circle text-gray-500 text-xl cursor-pointer hover:text-gray-300 transition"></i>
-                            <input type="text" placeholder="Message #how-to-advertise" class="flex-1 bg-transparent text-white placeholder-gray-400 text-sm focus:outline-none" disabled>
+                            <input type="text" placeholder="You cannot send messages in a locked channel." class="flex-1 bg-transparent text-gray-400 placeholder-gray-400 text-sm focus:outline-none" disabled>
                             <i class="fa-solid fa-gift text-gray-500 cursor-pointer hover:text-gray-300 transition hidden sm:inline"></i>
                             <i class="fa-solid fa-face-smile text-gray-500 cursor-pointer hover:text-gray-300 transition"></i>
                         </div>
